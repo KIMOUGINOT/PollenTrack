@@ -1,7 +1,7 @@
 # PollenTrack
 
 <div style="text-align: right;">
-    <img src="image/Logo_Pollentrack.png" alt="Description de l'image">
+    <img src="image/Logo_Pollentrack.png" alt="Description de l'image" width="200" height="200">
 </div>
 
 ## Algorithme de prise de photo
