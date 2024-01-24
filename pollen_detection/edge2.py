@@ -2,7 +2,7 @@ import cv2
 import matplotlib.pyplot as plt
 
 # Charger l'image
-image_path = "champ_clair_element_milieu_haut.jpg"  # Remplacez ceci par le chemin de votre image
+image_path = "../image/image.jpg"  # Remplacez ceci par le chemin de votre image
 img = cv2.imread(image_path)
 # # Convertir l'image en niveaux de gris
 # gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
