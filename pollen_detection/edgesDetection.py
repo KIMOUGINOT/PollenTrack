@@ -1,8 +1,8 @@
 import cv2
 import numpy as np
 
-# Charger l'image
-image_path = "Logo_Pollentrack.png"
+image_path = "../image/image.jpg"
+
 image = cv2.imread(image_path)
 
 # Vérifier si l'image est chargée correctement
@@ -20,8 +20,7 @@ gray_image_blurred = cv2.GaussianBlur(gray_image, (5, 5), 0)
 edges = cv2.Canny(gray_image_blurred, 50, 150)
 
 # Afficher l'image originale, en niveaux de gris, et les contours détectés
-cv2.imshow("Image Originale", image)
-cv2.imshow("Image en Niveaux de Gris", gray_image)
+cv2.imshow("blurry", gray_image_blurred)
 cv2.imshow("Contours Détectés", edges)
 
 # Attendre une touche et fermer les fenêtres
