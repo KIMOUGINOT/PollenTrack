@@ -14,6 +14,6 @@ Il existe de nombreux algorithmes de détection de bord comme ‘canny’ par ex
 - On ne veut pas faire le focus de l’image mais se focus sur une partie de l’image seulement qui est la zone où on a détecté un grain de pollen.
 Il faudrait donc commencer par détecter un grain de pollen dans l’image puis se concentrer sur cette zone. (CONTINUER A REGARDER OPENCV)
 calculer les distances entre les objets trouvés et déterminer une zone où il y a le plus d'objet proche
-- Une fois cette zone trouvée, on veut savoir à quel point elle est floue. Pour cela, il faut d’abord créer un algo qui détermine “le taux de netteté” d’une image (déjà trouvé, voir mes favoris sur google).
+- Une fois cette zone trouvée, on veut savoir à quel point elle est floue. Pour cela, il faut d’abord créer un algo qui détermine “le taux de netteté” d’une image (déjà trouvé, voir mes favoris sur google). Pour l'instant j'utilise la variance du filtre laplacien comme taux de netteté mais il y a des limites.
 - Connaissant cela, il faut maintenant y aller à tatillon : on actionne le moteur pour zoomer quelque peu (déterminer de combien on bouge) la caméra et à chaque itération on regarde si le taux de netteté est meilleure que précédemment. Si le taux est meilleur, on zoom et si il est pire on dézoom. On itère jusqu’à un taux qui nous convient. LE FOCUS EST FAIT(voir favori).
 - On peut ainsi prendre la photo.
