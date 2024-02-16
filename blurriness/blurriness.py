@@ -21,7 +21,7 @@ if __name__ == "__main__" :
     sample_directory = "samples"
     directory_list = listdir(sample_directory)
 
-    with open("sharpness_rate/data.txt", "w") as text_file:
+    with open("blurriness/data.txt", "w") as text_file:
         text_file.write("Blurriness rate of image samples\n")
         text_file.write("--------------------------\n\n")
 
