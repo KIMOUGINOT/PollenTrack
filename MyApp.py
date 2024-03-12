@@ -8,5 +8,6 @@
     #     self.transportMotor =
     #     self.zoomMotor =
     #     self.camera =
+    #     init_storage()
 
     # def run(self):
