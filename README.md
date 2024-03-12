@@ -4,6 +4,9 @@
     <img src="image/Logo_Pollentrack.png" alt="Description de l'image" width="200" height="200">
 </div>
 
+## Architecture du projet
+
+
 ## Algorithme de prise de photo
 Le problème majeur est de réussir à prendre une photo qui n’est pas floue. Je souhaiterai donc créer un code qui permet de faire le focus d’une image. 
 
