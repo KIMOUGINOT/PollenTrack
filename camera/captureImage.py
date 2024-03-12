@@ -1,7 +1,15 @@
-import picamera
+from picamera2 import Picamera2, Preview
 
-with picamera.PiCamera() as camera:
-    camera.resolution = (1280, 720)  # Définir la résolution de l'image
-    camera.start_preview()  # Démarrer la prévisualisation de la caméra
-    input("Appuyez sur Entrée pour capturer l'image...")
-    camera.capture('image.jpg')  # Capturer et enregistrer l'image sous le nom 'image.jpg'
+def take_picture(image_path, image_name):
+    """_take an image and save it to image_path with the label image_name_
+
+    Args:
+        image_path (_string_):
+        image_name (_string_): 
+    """
+    picam2 = Picamera2()
+    camera_config = picam2.create_preview_configuration()
+    picam2.configure(camera_config)
+    picam2.start_preview(Preview.NULL)
+    picam2.start()
+    picam2.capture_file("")
