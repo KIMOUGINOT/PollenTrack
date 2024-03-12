@@ -12,4 +12,4 @@ def take_picture(image_path, image_name):
     picam2.configure(camera_config)
     picam2.start_preview(Preview.NULL)
     picam2.start()
-    picam2.capture_file("")
+    picam2.capture_file(image_path+image_name)
