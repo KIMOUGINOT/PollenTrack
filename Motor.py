@@ -2,7 +2,8 @@ import RPi.GPIO as GPIO
 import time
 
 class Motor():
-    def __init__(self, in1, in2, in3, in4):
+    def __init__(self, motor_pins):
+        in1, in2, in3, in4 = motor_pins
         self.step_sleep = 0.002
         # self.step_count = 4096 # 5.625*(1/64) per step, 4096 steps is 360°
         self.step_sequence = [[1,0,0,1],

@@ -1,15 +1,13 @@
 import RPi.GPIO as GPIO
 
-GPIO.setmode(GPIO.BCM)
-
-# Set GPIO pin for fan control
-PIN = 18
-GPIO.setup(PIN, GPIO.OUT)
-
 class Fan():
+    def __init__(self, pin):
+        self.pin = pin
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(pin, GPIO.OUT)
         
     def on(self):
-        GPIO.output(PIN, GPIO.HIGH)
+        GPIO.output(self.pin, GPIO.HIGH)
 
     def off(self):
-        GPIO.output(PIN, GPIO.LOW)
+        GPIO.output(self.pin, GPIO.LOW)

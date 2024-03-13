@@ -6,9 +6,10 @@ import numpy as np
 from camera_utilities import blurriness, pollenDetection
 
 class Camera(Picamera2):
-    def __init__(self, in1, in2, in3, in4) :
+    def __init__(self, camera_motor_pins) :
         super().__init__()
         camera_config = self.create_preview_configuration()
+        in1, in2, in3, in4 = camera_motor_pins
         self.motor = Motor(in1, in2, in3, in4)
         self.configure(camera_config)
 
