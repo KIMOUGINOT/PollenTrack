@@ -22,7 +22,7 @@ class Camera(Picamera2):
         self.start()
         self.capture_file(image_path+image_name) 
 
-    def zoom(self, direction):
+    # def zoom(self, direction):
             
 
     def focus(self):
@@ -30,7 +30,7 @@ class Camera(Picamera2):
         ret, frame = cap.read()
         cap.release()
         image = np.array(frame)
-        x, y, w, h = pollenDetection.pollen_detection(image) # Pas besoin de faire la détection de pollen à chaque fois, à modif
+        x, y, w, h = pollenDetection.pollen_detection(image)
         cropped_image = image[y:y+h, x:x+w]
         sharpness = blurriness.measure_blurriness(cropped_image)
         self.zoom(1)
