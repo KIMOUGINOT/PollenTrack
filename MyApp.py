@@ -1,6 +1,9 @@
 from Camera import *
 from Fan import *
 from Led import *
+from datetime import datetime
+import os
+
 
 class MyApp():
 
@@ -14,3 +17,11 @@ class MyApp():
         # self.init_storage()
 
     # def run(self):
+
+    def init_storage():
+        date = datetime.today().strftime("%Y-%m-%d")
+        os.mkdir("Image/" + date)
+
+if __name__ == "__main__" :
+    date = datetime.today().strftime("%Y-%m-%d")
+    os.mkdir("Image/" + date)
