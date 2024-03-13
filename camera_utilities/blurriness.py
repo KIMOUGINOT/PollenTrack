@@ -1,7 +1,7 @@
 import cv2
 from os import listdir
 
-def measure_blurriness(image_path):
+def measure_blurriness(image):
     """determine the blurriness of an image using Laplacian filter
 
     Args:
@@ -10,7 +10,6 @@ def measure_blurriness(image_path):
     Returns:
         _float_: Laplacian variance
     """
-    image = cv2.imread(image_path)
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     laplacian = cv2.Laplacian(gray, cv2.CV_64F).var()
 
