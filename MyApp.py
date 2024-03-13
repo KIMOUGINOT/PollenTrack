@@ -6,7 +6,6 @@
     #     self.fan =
     #     self.led =
     #     self.transportMotor =
-    #     self.zoomMotor =
     #     self.camera =
     #     init_storage()
 

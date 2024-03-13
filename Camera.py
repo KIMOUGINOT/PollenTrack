@@ -1,4 +1,5 @@
 from picamera2 import Picamera2, Preview
+from Motor import *
 import cv2
 import numpy as np
 from camera_utilities import blurriness, pollenDetection
@@ -7,6 +8,7 @@ class Camera(Picamera2):
     def __init__(self) :
         super().__init__()
         camera_config = self.create_preview_configuration()
+        self.motor = Motor()
         self.configure(camera_config)
 
     def take_picture(self, image_path, image_name):
@@ -19,6 +21,9 @@ class Camera(Picamera2):
         self.start_preview(Preview.NULL)
         self.start()
         self.capture_file(image_path+image_name) 
+
+    def zoom(self, direction):
+            
 
     def focus(self):
         cap = cv2.VideoCapture(0)
@@ -45,7 +50,3 @@ class Camera(Picamera2):
                 self.zoom(-1)
         
         return image
-
-
-    def zoom(self):
-        pass
