@@ -24,16 +24,16 @@ class Camera(Picamera2):
         self.capture_file(image_path+image_name) 
 
     def calibrage(self):
-        state = True
-        def set_state_false():
-            state = False
-        keyboard.add_hotkey('z', lambda : self.zoom(True))
-        keyboard.add_hotkey('s', lambda : self.zoom(False))
-        keyboard.add_hotkey('a', set_state_false)
+        # state = True
+        # def set_state_false():
+        #     state = False
+        # keyboard.add_hotkey('z', lambda : self.zoom(True))
+        # keyboard.add_hotkey('s', lambda : self.zoom(False))
+        # keyboard.add_hotkey('a', set_state_false)
         self.start_preview()
-        while state :
-            pass
-        self.stop_preview()
+        # while state :
+        #     pass
+        # self.stop_preview()
 
     def zoom(self, direction):
         self.motor.move(100, direction)
