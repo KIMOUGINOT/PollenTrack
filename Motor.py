@@ -4,8 +4,7 @@ import time
 class Motor():
     def __init__(self, in1, in2, in3, in4):
         self.step_sleep = 0.002
-        self.step_count = 4096 # 5.625*(1/64) per step, 4096 steps is 360°
-        self.direction = False # True for clockwise, False for counter-clockwise
+        # self.step_count = 4096 # 5.625*(1/64) per step, 4096 steps is 360°
         self.step_sequence = [[1,0,0,1],
                             [1,0,0,0],
                             [1,1,0,0],
@@ -38,21 +37,17 @@ class Motor():
         GPIO.cleanup()
 
     def move(self, steps, direction):
-            if direction:
-                self.direction = True
-            else:
-                self.direction = False
-
             for _ in range(steps):
                 for pin in range(len(self.motor_pins)):
                     GPIO.output(self.motor_pins[pin], self.step_sequence[self.motor_step_counter][pin])
 
-                if self.direction:
+                if direction:
                     self.motor_step_counter = (self.motor_step_counter - 1) % 8
                 else:
                     self.motor_step_counter = (self.motor_step_counter + 1) % 8
 
                 time.sleep(self.step_sleep)
+                
 
 if __name__ == "__main__":
     # Utilisation de la classe Motor
