@@ -56,7 +56,8 @@ if __name__ == "__main__":
     in2 = 18
     in3 = 27
     in4 = 22
-    motor = Motor(in1, in2, in3, in4)
+    pins_list = [in1, in2, in3, in4]
+    motor = Motor(pins_list)
     try:
         # Déplacer de 100 pas dans la direction spécifiée
         motor.move(100, direction=True)  # ou False pour changer la direction
