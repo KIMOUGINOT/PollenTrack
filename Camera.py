@@ -8,7 +8,7 @@ from camera_utilities import blurriness, pollenDetection
 class Camera(Picamera2):
     def __init__(self, camera_motor_pins) :
         super().__init__()
-        camera_config = self.create_preview_configuration()
+        camera_config = self.create_preview_configuration(main={"size" : (800, 600)})
         in1, in2, in3, in4 = camera_motor_pins
         self.motor = Motor(in1, in2, in3, in4)
         self.configure(camera_config)
@@ -53,7 +53,8 @@ class Camera(Picamera2):
         # keyboard.add_hotkey('z', lambda : self.zoom(True))
         # keyboard.add_hotkey('s', lambda : self.zoom(False))
         # keyboard.add_hotkey('a', set_state_false)
-        self.start_preview()
+        self.start_preview(Preview.QTGL)
+        self.start()
         # while state :
         #     pass
         # self.stop_preview()
