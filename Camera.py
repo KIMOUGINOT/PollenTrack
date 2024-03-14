@@ -24,6 +24,22 @@ class Camera(Picamera2):
         self.start()
         self.capture_file(image_path+image_name) 
 
+    def take_3_pictures(self, image_path, image_name)
+        self.focus()
+        for i in range(3):
+            # Changer la mise au point pour chaque prise de vue
+            
+            if i == 1:
+                self.zoom(False)
+            elif i == 2:
+                self.zoom(True)
+                self.zoom(True) 
+
+            # Prendre une photo avec la mise au point actuelle
+            # Enregistrer l'image
+            self.take_picture(image_path, f"{image_name}_{i+1}.jpg")
+
+
     def calibrage(self):
         # state = True
         # def set_state_false():
@@ -62,5 +78,3 @@ class Camera(Picamera2):
                 self.zoom(True)
             else :
                 self.zoom(False)
-        
-        return image
