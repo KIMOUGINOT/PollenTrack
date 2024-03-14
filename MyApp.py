@@ -9,6 +9,7 @@ class MyApp():
 
     def __init__(self, fan_pin, init_led_pin, transport_led_pin, end_led_pin, motor_pins, camera_motor_pins):
         self.fan = Fan(fan_pin)
+        self.date = datetime.today().strftime("%Y-%m-%d")
         # self.init_led = Led(init_led_pin)
         # self.transport_led = Led(transport_led_pin)
         # self.end_led = Led(end_led_pin)
@@ -18,9 +19,8 @@ class MyApp():
 
     # def run(self):
 
-    def init_storage():
-        date = datetime.today().strftime("%Y-%m-%d")
-        os.mkdir("Image/" + date)
+    def init_storage(self):
+        os.mkdir("Image/" + self.date)
 
 if __name__ == "__main__" :
     date = datetime.today().strftime("%Y-%m-%d")
