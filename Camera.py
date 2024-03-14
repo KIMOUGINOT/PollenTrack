@@ -9,8 +9,7 @@ class Camera(Picamera2):
     def __init__(self, camera_motor_pins) :
         super().__init__()
         camera_config = self.create_preview_configuration(main={"size" : (800, 600)})
-        in1, in2, in3, in4 = camera_motor_pins
-        self.motor = Motor(in1, in2, in3, in4)
+        self.motor = Motor(camera_motor_pins)
         self.configure(camera_config)
 
     def take_picture(self, image_path, image_name):
