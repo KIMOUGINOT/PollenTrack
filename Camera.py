@@ -24,7 +24,13 @@ class Camera(Picamera2):
         self.start()
         self.capture_file(image_path+image_name) 
 
-    def take_3_pictures(self, image_path, image_name)
+    def take_3_pictures(self, image_path, image_name):
+        """ Acquire 3 pictures with a slight difference in focus and save it to image_path with the label image_name
+
+        Args:
+            image_path (string): 
+            image_name (string): 
+        """
         self.focus()
         for i in range(3):
             # Changer la mise au point pour chaque prise de vue
@@ -53,9 +59,16 @@ class Camera(Picamera2):
         # self.stop_preview()
 
     def zoom(self, direction):
+        """activate the motor for x steps to the direction given in parameters
+
+        Args:
+            direction (_bool_): True if clock-wise and False in the opposite case
+        """
         self.motor.move(100, direction)
 
     def focus(self):
+        """Activate the motor to get the image sharp using pollen detection and blurriness measurement
+        """
         cap = cv2.VideoCapture(0)
         ret, frame = cap.read()
         cap.release()
