@@ -1,5 +1,5 @@
 from picamera2 import Picamera2, Preview
-import keyboard
+# import keyboard
 from Motor import *
 import cv2
 import numpy as np
