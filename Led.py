@@ -1,7 +1,8 @@
 import RPi.GPIO as GPIO
 
 class Led():
-    def __init__(self, red_pin, green_pin, blue_pin):
+    def __init__(self, led_pins):
+        red_pin, green_pin, blue_pin = led_pins
         GPIO.setmode(GPIO.BCM)
         self.red_pin = red_pin
         self.green_pin = green_pin
