@@ -1,10 +1,5 @@
 import RPi.GPIO as GPIO
 
-# Set GPIO pins for led control
-RED_PIN = 11
-GREEN_PIN = 13
-BLUE_PIN = 15
-
 class Led():
     def __init__(self, red_pin, green_pin, blue_pin):
         GPIO.setmode(GPIO.BCM)
@@ -16,11 +11,20 @@ class Led():
         GPIO.setup(self.blue_pin, GPIO.OUT)
         
     def on(self, red, green, blue):
+        """ Turn on the led according to the colors chosen
+
+        Args:
+            red (_bool_)
+            green (_bool_) 
+            blue (_bool_)
+        """
         GPIO.output(self.red_pin, red)
         GPIO.output(self.green_pin, green)
         GPIO.output(self.blue_pin, blue)
 
     def off(self):
+        """ Turn off the led
+        """
         GPIO.output(self.red_pin, GPIO.LOW)
         GPIO.output(self.green_pin, GPIO.LOW)
         GPIO.output(self.blue_pin, GPIO.LOW)
