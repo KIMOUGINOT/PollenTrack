@@ -1,26 +1,58 @@
 from Camera import *
 from Fan import *
 from Led import *
+from Button import *
 from datetime import datetime
 import os
 
 
 class MyApp():
 
-    def __init__(self, fan_pin, init_led_pin, transport_led_pin, end_led_pin, motor_pins, camera_motor_pins):
+    def __init__(self, fan_pin, led_pins, motor_pins, camera_motor_pins, button_pin):
+        self.run = True
         self.fan = Fan(fan_pin)
         self.date = datetime.today().strftime("%Y-%m-%d")
-        # self.init_led = Led(init_led_pin)
-        # self.transport_led = Led(transport_led_pin)
-        # self.end_led = Led(end_led_pin)
-        self.transportMotor = Motor(motor_pins)
+        self.led = Led(led_pins)
+        self.transportMotor = Motor(motor_pins,True)
         self.camera = Camera(camera_motor_pins)
-        # self.init_storage()
+        self.button = Button(button_pin)
+        self.button.on_single_click(self.button_single_click)
+        self.button.on_double_click(self.button_double_click)
+        self.init_storage()
 
-    # def run(self):
+    def routine(self):
+        start_time = time.time()
+        self.fan.start_on()
+        while self.run :
+            current_time = time.time()
+            t = current_time - start_time
+            if t < (6*3600) :       # 6 hrs of pollen trapping
+                self.led.on(0,1,1) # yellow
+                self.fan.on()
+                time.sleep(0.1)
+            else :
+                self.led(0,0,1) # blue
+                self.transportMotor.move_mm(100)
+                for i in range(4):
+                    self.camera.take_3_pictures("Image/" + self.date,self.date+ f"_{i}")
+                self.run = False
+        self.led.on_for(0,1,0, 10)
+        self.off()    
 
     def init_storage(self):
         os.mkdir("Image/" + self.date)
+
+    def button_single_click(self):
+        self.run = False
+
+    def button_double_click(self):
+        self.transportMotor.erase_log()
+    
+    def off(self):
+        self.fan.off()
+        self.led.off()
+        self.transportMotor.off()
+        self.camera.off()
 
 if __name__ == "__main__" :
     date = datetime.today().strftime("%Y-%m-%d")

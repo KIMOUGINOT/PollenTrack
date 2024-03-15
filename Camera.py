@@ -91,3 +91,6 @@ class Camera(Picamera2):
                 self.zoom(True)
             else :
                 self.zoom(False)
+
+    def off(self) :
+        self.motor.off()

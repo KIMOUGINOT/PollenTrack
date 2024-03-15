@@ -35,7 +35,7 @@ class Motor():
         self.motor_pins = [in1,in2,in3,in4]
         self.motor_step_counter = 0 
 
-    def cleanup(self):
+    def off(self):
         GPIO.output( self.motor_pins[1], GPIO.LOW )
         GPIO.output( self.motor_pins[2], GPIO.LOW )
         GPIO.output( self.motor_pins[3], GPIO.LOW )
