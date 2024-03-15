@@ -1,6 +1,11 @@
 import RPi.GPIO as GPIO
 import time
 
+radius_max = 25.5 #en mm
+ratio = 0.512
+i1 = 64
+i2 = 125
+
 class Motor():
     def __init__(self, motor_pins, log=False):
         in1, in2, in3, in4 = motor_pins
@@ -50,6 +55,13 @@ class Motor():
 
                 time.sleep(self.step_sleep)
 
+    def move_mm(self,distance):
+         total_steps = self.get_total_step()
+         radius = radius_max - total_steps/(i1*i2*ratio)
+         angle = (distance*i1*i2)/radius
+         step = angle*4096/(2*3.142592)
+         self.move(step,True)
+
     def refresh_log(self,steps):
         if self.log:
             total_steps = self.get_total_step()
@@ -75,4 +87,3 @@ if __name__ == "__main__":
     pins_list = [in1, in2, in3, in4]
     motor = Motor(pins_list, True)
     motor.erase_log()
-    
