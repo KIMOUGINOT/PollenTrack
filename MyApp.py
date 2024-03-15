@@ -36,7 +36,7 @@ class MyApp():
                 for i in range(4):
                     self.camera.take_3_pictures("Image/" + self.date,self.date+ f"_{i}")
                 self.run = False
-        self.led.on_for(0,1,0, 10)
+        self.led.on_for(0,1,0, 10) # green for 10sec
         self.off()    
 
     def init_storage(self):
