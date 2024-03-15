@@ -22,6 +22,19 @@ class Led():
         GPIO.output(self.green_pin, green)
         GPIO.output(self.blue_pin, blue)
 
+    def on_for(self, red, green, blue, duration) :
+        """ Turn on the led according to the colors chosen during the time given in parameters
+
+        Args:
+            red (_bool_)
+            green (_bool_) 
+            blue (_bool_)
+            duration (_float_): Duration in seconds
+        """
+        self.on(red, green, blue)
+        time.sleep(duration)
+        self.off()
+
     def off(self):
         """ Turn off the led
         """
