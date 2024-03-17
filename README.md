@@ -1,12 +1,32 @@
 # PollenTrack
 
 <div style="text-align: right;">
-    <img src="image/Logo_Pollentrack.png" alt="Description de l'image" width="200" height="200">
+    <img src="image/Logo_Pollentrack.png" alt="Logo Pollentrack" width="200" height="200">
 </div>
 
+## Introduction
+Dans le cadre de mon cursus en école d'ingénieur à Telecom Physique Strasbourg, je dois en deuxième prendre part à un projet ingénieur. Ce projet a été proposé par un client à l'école qui nous l'a ensuite proposé. Je fais donc partie d'une équipe de 5 étudiants dans laquelle je suis responsable de la partie software.
+
+## Client
+Le client est Eric Herber, ingénieur qualité de l'air à ATMO Grand Est.
+
+## Présentation du projet et enjeu
+Notre projet s’intitule POLLENTRACK. Ce projet a pour but de réaliser un capteur de pollens capable d'effectuer le prélèvement du pollen de manière autonome et d'acquérir des image à l'aide d'un microscope embarqué du prélèvement. 
+
+Une reconnaissance des grains de pollens via une intelligence artificielle permettra alors une analyse plus complète qui donnera ensuite une indication sur le taux et le type de pollens dans l’air. Cette reconnaissance par intelligence artificielle est réalisée par une entreprise extérieure, nous ne serons donc pas responsables de cette tâche. 
+
+L'enjeu de cet outil embarqué est de pouvoir prévenir les populations en cas de forte quantité de pollen dan l'air pour éviter des désagréments aux personnes sensibles.
+
 ## Architecture du projet
+Le projet prend la forme d'une boîte dans laquelle sont disposés deux modules :
 
+- Une partie liée au captage du pollen constituée d'une cheminée où un ventilateur créant un flux d'air de 10L/min (~respiration humaine) entraine le pollen vers une bande adhésive sur laquelle celui ci est piégé.
 
+- Une partie liée à l'acquisition d'image de ce pollen avec un microscope embarqué. Le microscope embarqué utilisé est le Microscope Openflexure 1.6.5.
+
+Ces deux parties sont reliées entre elles par un moteur qui se chargera du déplacement du scotch entre les deux.
+
+Le cerveau du système est un raspberry pi 4B .
 ## Algorithme de prise de photo
 Le problème majeur est de réussir à prendre une photo qui n’est pas floue. Je souhaiterai donc créer un code qui permet de faire le focus d’une image. 
 
