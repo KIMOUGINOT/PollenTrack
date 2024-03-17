@@ -58,33 +58,38 @@ class Camera(Picamera2):
         #     pass
         # self.stop_preview()
 
-    def zoom(self, direction):
+    def zoom(self, step, direction):
         """activate the motor for x steps to the direction given in parameters
 
         Args:
             direction (_bool_): True if clock-wise and False in the opposite case
         """
-        self.motor.move(100, direction)
+        self.motor.move(step, direction)
 
     def focus(self):
         """Activate the motor to get the image sharp using pollen detection and blurriness measurement
         """
         image = self.capture_array()
+        cv2.imwrite("init_image.png", image)
         x, y, w, h = pollenDetection.pollen_detection(image)
         cropped_image = image[y:y+h, x:x+w]
+        cv2.imwrite("cropped_image.png", cropped_image)
         sharpness = blurriness.measure_blurriness(cropped_image)
-        self.zoom(True)
+        bool = True
+        step = 110
+        self.zoom(bool)
 
         for _ in range(20) :
+            step -= 4
             img = self.capture_array()
             cropped_image = img[y:y+h, x:x+w]
             var = blurriness.measure_blurriness(cropped_image)
-            if var > sharpness :
-                image = img
-                sharpness = var
-                self.zoom(True)
-            else :
-                self.zoom(False)
+            if var < sharpness :
+                bool = not(bool)
+            print(bool,var)
+            self.zoom(step, bool)
+            sharpness = var
+            time.sleep(1)
 
     def off(self) :
         self.motor.off()
