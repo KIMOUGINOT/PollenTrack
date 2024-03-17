@@ -1,4 +1,4 @@
-from Camera import *
+from MyApp import *
 
 if __name__ == "__main__":
     in1 = 17

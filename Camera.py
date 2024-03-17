@@ -69,20 +69,14 @@ class Camera(Picamera2):
     def focus(self):
         """Activate the motor to get the image sharp using pollen detection and blurriness measurement
         """
-        cap = cv2.VideoCapture(0)
-        ret, frame = cap.read()
-        cap.release()
-        image = np.array(frame)
+        image = self.capture_array()
         x, y, w, h = pollenDetection.pollen_detection(image)
         cropped_image = image[y:y+h, x:x+w]
         sharpness = blurriness.measure_blurriness(cropped_image)
         self.zoom(True)
 
         for _ in range(20) :
-            cap = cv2.VideoCapture(0)
-            ret, frm = cap.read()
-            cap.release()
-            img = np.array(frm)
+            img = self.capture_array()
             cropped_image = img[y:y+h, x:x+w]
             var = blurriness.measure_blurriness(cropped_image)
             if var > sharpness :
