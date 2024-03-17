@@ -39,7 +39,7 @@ class Motor():
         GPIO.output( self.motor_pins[1], GPIO.LOW )
         GPIO.output( self.motor_pins[2], GPIO.LOW )
         GPIO.output( self.motor_pins[3], GPIO.LOW )
-        GPIO.output( self.motor_pins[4], GPIO.LOW )
+        GPIO.output( self.motor_pins[0], GPIO.LOW )
         GPIO.cleanup()
 
     def move(self, steps, direction):
