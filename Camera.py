@@ -35,10 +35,10 @@ class Camera(Picamera2):
             # Changer la mise au point pour chaque prise de vue
             
             if i == 1:
-                self.zoom(False)
+                self.zoom(100,False)
             elif i == 2:
-                self.zoom(True)
-                self.zoom(True) 
+                self.zoom(100,True)
+                self.zoom(100,True) 
 
             # Prendre une photo avec la mise au point actuelle
             # Enregistrer l'image
@@ -77,7 +77,7 @@ class Camera(Picamera2):
         sharpness = blurriness.measure_blurriness(cropped_image)
         bool = True
         step = 110
-        self.zoom(bool)
+        self.zoom(step,bool)
 
         for _ in range(20) :
             step -= 4
