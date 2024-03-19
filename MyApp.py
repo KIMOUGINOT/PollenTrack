@@ -21,6 +21,7 @@ class MyApp():
         self.init_storage()
 
     def routine(self):
+        self.run = True
         start_time = time.time()
         self.fan.start_on()
         while self.run :
@@ -37,7 +38,7 @@ class MyApp():
                     self.camera.take_3_pictures("Image/" + self.date,self.date+ f"_{i}")
                 self.run = False
         self.led.on_for(0,1,0, 10) # green for 10sec
-        self.off()    
+
 
     def init_storage(self):
         os.mkdir("Image/" + self.date)
