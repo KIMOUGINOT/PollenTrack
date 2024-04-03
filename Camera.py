@@ -1,6 +1,6 @@
 from picamera2 import Picamera2, Preview
 # import keyboard
-from Motor import *
+from MotorMicroscope import *
 import cv2
 import numpy as np
 from camera_utilities import blurriness, pollenDetection
@@ -9,7 +9,7 @@ class Camera(Picamera2):
     def __init__(self, camera_motor_pins) :
         super().__init__()
         camera_config = self.create_preview_configuration(main={"size" : (800, 600)})
-        self.motor = Motor(camera_motor_pins)
+        self.motor = MotorMicroscope(camera_motor_pins)
         self.configure(camera_config)
 
     def take_picture(self, image_path, image_name):

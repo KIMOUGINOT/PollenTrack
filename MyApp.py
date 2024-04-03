@@ -2,6 +2,7 @@ from Camera import *
 from Fan import *
 from Led import *
 from Button import *
+from MotorTransport import *
 from datetime import datetime
 import os
 
@@ -13,7 +14,7 @@ class MyApp():
         self.fan = Fan(fan_pin)
         self.date = datetime.today().strftime("%Y-%m-%d")
         self.led = Led(led_pins)
-        self.transportMotor = Motor(motor_pins,True)
+        self.transportMotor = MotorTransport(motor_pins,True)
         self.camera = Camera(camera_motor_pins)
         self.button = Button(button_pin)
         self.button.on_single_click(self.button_single_click)
