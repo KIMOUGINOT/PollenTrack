@@ -62,6 +62,7 @@ class Camera(Picamera2):
         """activate the motor for x steps to the direction given in parameters
 
         Args:
+            step (_int_): Number of steps to rotate
             direction (_bool_): True if clock-wise and False in the opposite case
         """
         self.motor.move(step, direction)
@@ -74,22 +75,41 @@ class Camera(Picamera2):
         x, y, w, h = pollenDetection.pollen_detection(image)
         cropped_image = image[y:y+h, x:x+w]
         cv2.imwrite("cropped_image.png", cropped_image)
-        sharpness = blurriness.measure_blurriness(cropped_image)
-        bool = True
-        step = 110
-        self.zoom(step,bool)
 
-        for _ in range(20) :
-            step -= 4
-            img = self.capture_array()
-            cropped_image = img[y:y+h, x:x+w]
-            var = blurriness.measure_blurriness(cropped_image)
-            if var < sharpness :
-                bool = not(bool)
-            print(bool,var)
-            self.zoom(step, bool)
-            sharpness = var
-            time.sleep(1)
+        def get_direction(step, img):
+            """Indicate if it's better to zoom in or zoom out
+            """
+            time.sleep(3)
+            sharp =  blurriness.measure_blurriness(img)
+            self.zoom(step,True)
+            time.sleep(3)
+            sharp_true = blurriness.measure_blurriness(img)
+            self.zoom(2*step, False)
+            time.sleep(3)
+            sharp_false = blurriness.measure_blurriness(img)
+            self.zoom(step,True)
+
+            if (sharp_false > sharp) & (sharp_false > sharp_true):
+                return False
+            elif (sharp_true > sharp) & (sharp_true > sharp_false):
+                return True
+            else:
+                return -1
+
+        
+        step = 150    
+        direction = get_direction(step, cropped_image)
+        if direction != -1 :
+            self.zoom(step,direction)
+
+        while step > 80 :
+            step -= 10
+            I = self.capture_array()
+            cropped_image = I[y:y+h, x:x+w]
+            direction = get_direction(step, cropped_image)
+            if direction != -1 :
+                self.zoom(step,direction)
+            
 
     def off(self) :
         self.motor.off()

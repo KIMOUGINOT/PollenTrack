@@ -14,7 +14,7 @@ class MyApp():
         self.fan = Fan(fan_pin)
         self.date = datetime.today().strftime("%Y-%m-%d")
         self.led = Led(led_pins)
-        self.transportMotor = MotorTransport(motor_pins,True)
+        self.transportMotor = MotorTransport(motor_pins)
         self.camera = Camera(camera_motor_pins)
         self.button = Button(button_pin)
         self.button.on_single_click(self.button_single_click)
