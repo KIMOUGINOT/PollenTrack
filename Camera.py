@@ -32,7 +32,6 @@ class Camera(Picamera2):
         """
         self.focus()
         for i in range(3):
-            # Changer la mise au point pour chaque prise de vue
             
             if i == 1:
                 self.zoom(100,False)
@@ -40,9 +39,8 @@ class Camera(Picamera2):
                 self.zoom(100,True)
                 self.zoom(100,True) 
 
-            # Prendre une photo avec la mise au point actuelle
-            # Enregistrer l'image
             self.take_picture(image_path, f"{image_name}_{i+1}.jpg")
+        self.zoom(100,False)
 
 
     def calibrage(self):
