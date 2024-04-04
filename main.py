@@ -1,12 +1,14 @@
 from MyApp import *
 
 if __name__ == "__main__":
-    in1 = 22
-    in2 = 27
-    in3 = 17
-    in4 = 23
-    pins_list = [in1, in2, in3, in4]
-    cam = Camera(pins_list)
-    cam.calibrage()
-    cam.focus()
-    cam.off()
+
+    fan_pin = 0 #inserer les pins
+    led_pins = [0, 0, 0] #inserer les pins
+    camera_pins = [22, 27, 17, 23]
+    motor_pins = [0, 0] #inserer les pins
+    button_pin = 0 #inserer les pins
+
+    cycle = MyApp(fan_pin, led_pins, motor_pins, camera_pins, button_pin)
+    cycle.routine_test()
+    cycle.off()
+     

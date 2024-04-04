@@ -40,6 +40,24 @@ class MyApp():
                 self.run = False
         self.led.on_for(0,1,0, 10) # green for 10sec
 
+    def routine_test(self):
+        self.run = True
+        start_time = time.time()
+        self.fan.start_on()
+        while self.run :
+            current_time = time.time()
+            t = current_time - start_time
+            if t < 60 :       # 60 sec of pollen trapping
+                self.led.on(0,1,1) # yellow
+                self.fan.on()
+                time.sleep(0.1)
+            else :
+                self.led(0,0,1) # blue
+                self.transportMotor.move(2000, True)
+                for i in range(4):
+                    self.camera.take_3_pictures("Image/" + self.date,self.date+ f"_{i}")
+                self.run = False
+        self.led.on_for(0,1,0, 10) # green for 10sec
 
     def init_storage(self):
         os.mkdir("Image/" + self.date)
@@ -55,6 +73,7 @@ class MyApp():
         self.led.off()
         self.transportMotor.off()
         self.camera.off()
+        GPIO.cleanup()
 
 if __name__ == "__main__" :
     date = datetime.today().strftime("%Y-%m-%d")
