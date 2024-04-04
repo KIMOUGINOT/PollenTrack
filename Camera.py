@@ -36,8 +36,7 @@ class Camera(Picamera2):
             if i == 1:
                 self.zoom(100,False)
             elif i == 2:
-                self.zoom(100,True)
-                self.zoom(100,True) 
+                self.zoom(200,True)
 
             self.take_picture(image_path, f"{image_name}_{i+1}.jpg")
         self.zoom(100,False)
@@ -75,7 +74,7 @@ class Camera(Picamera2):
         cv2.imwrite("cropped_image.png", cropped_image)
 
         def get_direction(step, img):
-            """Indicate if it's better to zoom in or zoom out
+            """Indicate if it's better to zoom in, zoom out or stay in position
             """
             time.sleep(3)
             sharp =  blurriness.measure_blurriness(img)
