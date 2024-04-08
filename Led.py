@@ -13,6 +13,7 @@ class Led():
         
     def on(self, red, green, blue):
         """ Turn on the led according to the colors chosen
+            (if simple led, green and blue pin are put to 0)
 
         Args:
             red (_bool_)
@@ -25,6 +26,7 @@ class Led():
 
     def on_for(self, red, green, blue, duration) :
         """ Turn on the led according to the colors chosen during the time given in parameters
+            (if simple led, green and blue pin are put to 0)
 
         Args:
             red (_bool_)

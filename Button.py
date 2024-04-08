@@ -36,7 +36,7 @@ if __name__ == "__main__":
 
     def double_click_callback():
         print("Double clic détecté")
-    button = Button(18)  # Utilisez le numéro de la broche GPIO à laquelle le bouton est connecté
+    button = Button(11)  # Utilisez le numéro de la broche GPIO à laquelle le bouton est connecté
     button.on_single_click(single_click_callback)
     button.on_double_click(double_click_callback)
 
