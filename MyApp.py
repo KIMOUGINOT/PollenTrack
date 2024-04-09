@@ -6,10 +6,11 @@ from MotorTransport import *
 from datetime import datetime
 import os
 
-
 class MyApp():
 
     def __init__(self, fan_pin, led_pins, motor_pins, camera_motor_pins, button_pin, led_microscope_pin):
+        self.TRANSPORT_DISTANCE = 50 #en mm - Distance entre l'arrivée du pollen et le microscope
+        self.MINI_DEPLACEMENT = 5 #en mm - Distance à parcourir pour effectuer les acquisitions d'un seul échantillon
         self.run = True
         self.fan = Fan(fan_pin)
         self.date = datetime.today().strftime("%Y-%m-%d")
@@ -35,9 +36,10 @@ class MyApp():
                 time.sleep(0.1)
             else :
                 self.led(0,0,1) # blue
-                self.transportMotor.move_mm(100)
+                self.transportMotor.move_mm(self.TRANSPORT_DISTANCE)
                 for i in range(4):
                     self.camera.take_3_pictures("Image/" + self.date,self.date+ f"_{i}")
+                    self.transportMotor.move_mm(self.MINI_DEPLACEMENT)
                 self.run = False
         self.led.on_for(0,1,0, 10) # green for 10sec
 
@@ -48,16 +50,16 @@ class MyApp():
         while self.run :
             current_time = time.time()
             t = current_time - start_time
-            if t < 60 :       # 60 sec of pollen trapping
+            if t < 10 :       # 10 sec of pollen trapping
                 self.led.on(0,1,1) # yellow
                 self.fan.on()
                 time.sleep(0.1)
             else :
                 self.led(0,0,1) # blue
-                self.transportMotor.move_mm(200)
+                self.transportMotor.move_mm(self.TRANSPORT_DISTANCE)
                 for i in range(4):
                     self.camera.take_3_pictures("Image/" + self.date,self.date+ f"_{i}")
-                    self.transportMotor.move_mm(10)
+                    self.transportMotor.move_mm(self.MINI_DEPLACEMENT)
                 self.run = False
         self.led.on_for(0,1,0, 10) # green for 10sec
 

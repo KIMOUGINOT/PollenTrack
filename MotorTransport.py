@@ -17,10 +17,18 @@ class MotorTransport():
         GPIO.setup(self.stepPin, GPIO.OUT)
 
     def off(self):
+        """Turn off the motor and clean the pins
+        """
         GPIO.cleanup()
 
     def move(self, steps, direction):
-        if direction:
+        """ Make the motor rotate steps in the direction given in parameters
+
+        Args:
+            steps (_int_): Number of steps to rotate the motor
+            direction (_bool_):
+        """
+        if not(direction):
             self.refresh_log(steps)
             GPIO.output(self.dirPin, GPIO.HIGH)
         else:
@@ -33,22 +41,39 @@ class MotorTransport():
             time.sleep(self.speed)
 
     def move_mm(self,distance):  
-         total_steps = self.get_total_step()
-         radius = radius_min + (total_steps % full_rotation_step)*scotch_thickness
-         angle = (distance*i_m)/radius
-         step = int(angle*full_rotation_step/(2*pi))
-         self.move(step,False)
+        """ Make the motor reel in distance in mm of scotch
+
+        Args:
+            distance (_int_): Distance to reel in in millimeter
+        """
+        total_steps = self.get_total_step()
+        radius = radius_min + (total_steps % full_rotation_step)*scotch_thickness
+        angle = (distance*i_m)/radius
+        step = int(angle*full_rotation_step/(2*pi))
+        self.move(step,False)
 
     def refresh_log(self,steps):
+        """ Update the number of steps rotated from the initiation of the spool until now in a text file
+
+        Args:
+            steps (_int_): 
+        """
         total_steps = self.get_total_step()
         with open("motor_utilities/log.txt", "w") as file:
             file.write(str(steps + total_steps))
 
     def erase_log(self):
+        """ Erase the log file to change the spool and put the number of step to 0
+        """
         with open("motor_utilities/log.txt", "w") as file:
             file.write(str(0))
 
     def get_total_step(self):
+        """ Get the number of steps rotated from the initiation of the spool until now
+
+        Returns:
+            _int_:
+        """
         with open("motor_utilities/log.txt", "r") as file:
                 total_steps = int(file.read())
         return total_steps
