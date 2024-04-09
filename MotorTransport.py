@@ -20,6 +20,7 @@ class MotorTransport():
 
     def move(self, steps, direction):
         if direction:
+            self.refresh_log(steps)
             GPIO.output(self.dirPin, GPIO.HIGH)
         else:
             GPIO.output(self.dirPin, GPIO.LOW)
@@ -54,7 +55,7 @@ class MotorTransport():
 
 if __name__ == "__main__":
     # Utilisation de la classe MotorTransport
-    in1 = 17
+    in1 = 15
     in2 = 18
     pins_list = [in1, in2]
     motor = MotorTransport(pins_list)

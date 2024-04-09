@@ -112,10 +112,10 @@ class Camera(Picamera2):
         self.motor.off()
 
 if __name__ == "__main__":
-    in1 = 22
-    in2 = 27
-    in3 = 17
-    in4 = 23
+    in1 = 2
+    in2 = 3
+    in3 = 4
+    in4 = 14
     pins_list = [in1, in2, in3, in4]
     cam = Camera(pins_list)
     cam.calibrage()

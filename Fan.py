@@ -35,3 +35,8 @@ class Fan():
         """ Turn off the fan
         """
         self.pwm.stop()
+
+if __name__ == "__main__" :
+    fan = Fan(9)
+    fan.on_for(10)
+    fan.off()
