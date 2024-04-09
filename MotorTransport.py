@@ -2,8 +2,9 @@ import RPi.GPIO as GPIO
 import time
 
 radius_max = 25.5 #en mm
-i_m = 64
-full_rotation_step = 16*200 # 16 microstep x 200 
+i_m = 1.8/16
+full_rotation_step = 3200 # 16 microstep x 200 
+scotch_thickness = 28e-6
 
 class MotorTransport():
     def __init__(self, motor_pins):
@@ -32,9 +33,9 @@ class MotorTransport():
 
     def move_mm(self,distance):  
          total_steps = self.get_total_step()
-         radius = radius_max - total_steps/i_m
+         radius = radius_max - (total_steps/3200*scotch_thickness)
          angle = (distance*i_m)/radius
-         step = angle*full_rotation_step/(2*3.142592)
+         step = int(angle*full_rotation_step/(2*3.142592))
          self.move(step,True)
 
     def refresh_log(self,steps):
