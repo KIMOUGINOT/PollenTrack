@@ -54,9 +54,10 @@ class MyApp():
                 time.sleep(0.1)
             else :
                 self.led(0,0,1) # blue
-                self.transportMotor.move(2000, True)
+                self.transportMotor.move_mm(200)
                 for i in range(4):
                     self.camera.take_3_pictures("Image/" + self.date,self.date+ f"_{i}")
+                    self.transportMotor.move_mm(10)
                 self.run = False
         self.led.on_for(0,1,0, 10) # green for 10sec
 

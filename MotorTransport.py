@@ -36,7 +36,7 @@ class MotorTransport():
          radius = radius_max - (total_steps/3200*scotch_thickness)
          angle = (distance*i_m)/radius
          step = int(angle*full_rotation_step/(2*3.142592))
-         self.move(step,True)
+         self.move(step,False)
 
     def refresh_log(self,steps):
         total_steps = self.get_total_step()
@@ -59,7 +59,8 @@ if __name__ == "__main__":
     in2 = 18
     pins_list = [in1, in2]
     motor = MotorTransport(pins_list)
-    motor.move(200, True)
+    motor.move(200, False)
     print(motor.get_total_step())
+    motor.move_mm(100)
     motor.erase_log()
     motor.off()
