@@ -64,7 +64,18 @@ class MyApp():
         self.led.on_for(0,1,0, 10) # green for 10sec
 
     def init_storage(self):
-        os.mkdir("Image/" + self.date)
+        folder_path = "Image/" + self.date
+
+        # Vérifier si le dossier existe déjà
+        if not os.path.exists(folder_path):
+            try:
+                # Créer le dossier s'il n'existe pas
+                os.mkdir(folder_path)
+                print(f"Dossier créé : {folder_path}")
+            except OSError as e:
+                print(f"Erreur lors de la création du dossier : {e}")
+        else:
+            print(f"Le dossier {folder_path} existe déjà.")
 
     def button_single_click(self):
         self.run = False
