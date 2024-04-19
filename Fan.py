@@ -12,9 +12,10 @@ class Fan():
         self.duty_cycle = 5.04
         self.duty_cycle_start = 100                                                  
         self.pwm = GPIO.PWM(pin, self.PWM_FREQ)
-        self.pwm.start(0)
+        print("Initialisation of the Fan : done")
         
     def start_on(self) :
+        self.pwm.start(0)
         self.pwm.ChangeDutyCycle(self.duty_cycle_start) # Start strong to give momentum to the fan
         time.sleep(1)
 
@@ -27,15 +28,15 @@ class Fan():
         Args:
             duration (_float_): in seconds
         """
-        self.pwm.ChangeDutyCycle(self.duty_cycle_start) # Start strong to give momentum to the fan
-        time.sleep(1)
-        self.pwm.ChangeDutyCycle(self.duty_cycle) # Then set the wanted duty cycle
+        self.start_on()
+        self.on()
         time.sleep(duration)
+        self.pwm.stop()
 
     def off(self):
         """ Turn off the fan
         """
-        self.pwm.stop()
+        GPIO.cleanup(self.pin)
 
 if __name__ == "__main__" :
     fan = Fan(9)

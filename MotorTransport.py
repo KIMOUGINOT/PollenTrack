@@ -10,7 +10,7 @@ scotch_thickness = 28e-6 #en mm
 class MotorTransport():
     def __init__(self, motor_pins):
         self.dirPin, self.stepPin = motor_pins
-        self.speed = 0.0005
+        self.speed = 0.005
 
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.dirPin, GPIO.OUT)
@@ -50,7 +50,7 @@ class MotorTransport():
         radius = radius_min + (total_steps % full_rotation_step)*scotch_thickness
         angle = (distance*i_m)/radius
         step = int(angle*full_rotation_step/(2*pi))
-        self.move(step,False)
+        self.move(step, True)
 
     def refresh_log(self,steps):
         """ Update the number of steps rotated from the initiation of the spool until now in a text file
@@ -85,7 +85,7 @@ if __name__ == "__main__":
     in2 = 18
     pins_list = [in1, in2]
     motor = MotorTransport(pins_list)
-    motor.move(200, False)
+    motor.move(200, True)
     print(motor.get_total_step())
     motor.move_mm(100)
     motor.erase_log()
