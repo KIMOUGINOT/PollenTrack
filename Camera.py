@@ -1,6 +1,7 @@
 from picamera2 import Picamera2, Preview
 # import keyboard
 from MotorMicroscope import *
+from Led import *
 import cv2
 import numpy as np
 from camera_utilities import blurriness, pollenDetection

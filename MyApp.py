@@ -8,14 +8,13 @@ import os
 
 class MyApp():
 
-    def __init__(self, fan_pin, led_pins, motor_pins, camera_motor_pins, button_pin, led_microscope_pin):
-        self.TRANSPORT_DISTANCE = 50 #en mm - Distance entre l'arrivée du pollen et le microscope
+    def __init__(self, fan_pin, led_pins, motor_pins, camera_motor_pins, button_pin):
+        self.TRANSPORT_DISTANCE = 1100 #en mm - Distance entre l'arrivée du pollen et le microscope
         self.MINI_DEPLACEMENT = 5 #en mm - Distance à parcourir pour effectuer les acquisitions d'un seul échantillon
         self.run = True
         self.fan = Fan(fan_pin)
         self.date = datetime.today().strftime("%Y-%m-%d")
         self.led = Led(led_pins)
-        self.led_microscope = Led(led_microscope_pin)
         self.transportMotor = MotorTransport(motor_pins)
         self.camera = Camera(camera_motor_pins)
         self.button = Button(button_pin)
