@@ -18,9 +18,7 @@ class Camera(Picamera2):
             image_path (_string_):
             image_name (_string_): 
         """
-        camera_config = self.create_preview_configuration(main={"size" : (800, 600)})
-        self.configure(camera_config)
-        self.start_preview(Preview.NULL)
+        self.start_preview(Preview.QTGL)
         self.start()
         self.capture_file(image_path+"/"+image_name) 
         self.stop_preview()
@@ -70,58 +68,75 @@ class Camera(Picamera2):
     def focus(self):
         """Activate the motor to get the image sharp using pollen detection and blurriness measurement
         """
+        self.start_preview(Preview.QTGL)
+        self.start()
         image = self.capture_array()
         x, y, w, h = pollenDetection.pollen_detection(image)
         cpt = 0
         while x==0 & y==0 & w==0 & h==0 :
-            if cpt < 5 :
-                self.zoom(True, 100)
+            if cpt < 10 :
+                self.zoom(100,True)
+                time.sleep(0.5)
                 cpt+=1
                 image = self.capture_array()
                 x, y, w, h = pollenDetection.pollen_detection(image)
-            if cpt == 5 :
-                self.zoom(False, 500)
-            if cpt > 5 :
+            if cpt == 10 :
+                for _ in range(10):
+                    self.zoom(100, False)
+                    time.sleep(0.3)
+                cpt+=1
+            if cpt > 10 & cpt <= 20 :
                 self.zoom(False, 100)
+                time.sleep(0.5)
                 cpt+=1
                 image = self.capture_array()
                 x, y, w, h = pollenDetection.pollen_detection(image)
+            if cpt > 20 :
+                for _ in range(10):
+                    self.zoom(100,True)
+                    time.sleep(0.3)
+                x=1
+                
+        comp = [x,y,w,h]
+        if comp != [1,0,0,0]:
             cropped_image = image[y:y+h, x:x+w]
-        cv2.imwrite("cropped_image.png", cropped_image)
+            cv2.imwrite("cropped_image.png", cropped_image)
 
-        def get_direction(step, img):
-            """Indicate if it's better to zoom in, zoom out or stay in position
-            """
-            time.sleep(1)
-            sharp =  blurriness.measure_blurriness(img)
-            self.zoom(step,True)
-            time.sleep(1)
-            sharp_true = blurriness.measure_blurriness(img)
-            self.zoom(2*step, False)
-            time.sleep(1)
-            sharp_false = blurriness.measure_blurriness(img)
-            self.zoom(step,True)
+            def get_direction(step, img):
+                """Indicate if it's better to zoom in, zoom out or stay in position
+                """
+                time.sleep(1)
+                sharp =  blurriness.measure_blurriness(img)
+                self.zoom(step,True)
+                time.sleep(1)
+                sharp_true = blurriness.measure_blurriness(img)
+                self.zoom(2*step, False)
+                time.sleep(1)
+                sharp_false = blurriness.measure_blurriness(img)
+                self.zoom(step,True)
 
-            if (sharp_false > sharp) & (sharp_false > sharp_true):
-                return False
-            elif (sharp_true > sharp) & (sharp_true > sharp_false):
-                return True
-            else:
-                return -1
+                if (sharp_false > sharp) & (sharp_false > sharp_true):
+                    return False
+                elif (sharp_true > sharp) & (sharp_true > sharp_false):
+                    return True
+                else:
+                    return -1
 
-        
-        step = 150    
-        direction = get_direction(step, cropped_image)
-        if direction != -1 :
-            self.zoom(step,direction)
-
-        while step > 80 :
-            step -= 10
-            I = self.capture_array()
-            cropped_image = I[y:y+h, x:x+w]
+            
+            step = 150    
             direction = get_direction(step, cropped_image)
             if direction != -1 :
                 self.zoom(step,direction)
+
+            while step > 80 :
+                step -= 10
+                I = self.capture_array()
+                cropped_image = I[y:y+h, x:x+w]
+                direction = get_direction(step, cropped_image)
+                if direction != -1 :
+                    self.zoom(step,direction)
+        self.stop_preview()
+        self.stop()
             
 
     def off(self) :
