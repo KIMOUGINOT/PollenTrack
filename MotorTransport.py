@@ -10,7 +10,7 @@ scotch_thickness = 28e-6 #en mm
 class MotorTransport():
     def __init__(self, motor_pins):
         self.dirPin, self.stepPin = motor_pins
-        self.speed = 0.005
+        self.speed = 0.004
 
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.dirPin, GPIO.OUT)
@@ -81,8 +81,8 @@ class MotorTransport():
 
 if __name__ == "__main__":
     # Utilisation de la classe MotorTransport
-    in1 = 15
-    in2 = 18
+    in1 = 26
+    in2 = 19
     pins_list = [in1, in2]
     motor = MotorTransport(pins_list)
     motor.move(200, True)

@@ -9,9 +9,7 @@ from camera_utilities import blurriness, pollenDetection
 class Camera(Picamera2):
     def __init__(self, camera_motor_pins) :
         super().__init__()
-        camera_config = self.create_preview_configuration(main={"size" : (800, 600)})
         self.motor = MotorMicroscope(camera_motor_pins)
-        self.configure(camera_config)
 
     def take_picture(self, image_path, image_name):
         """ Take an image and save it to image_path with the label image_name
@@ -20,9 +18,13 @@ class Camera(Picamera2):
             image_path (_string_):
             image_name (_string_): 
         """
+        camera_config = self.create_preview_configuration(main={"size" : (800, 600)})
+        self.configure(camera_config)
         self.start_preview(Preview.NULL)
         self.start()
-        self.capture_file(image_path+image_name) 
+        self.capture_file(image_path+"/"+image_name) 
+        self.stop_preview()
+        self.stop()
 
     def take_3_pictures(self, image_path, image_name):
         """ Acquire 3 pictures with a slight difference in focus and save it to image_path with the label image_name
@@ -69,21 +71,34 @@ class Camera(Picamera2):
         """Activate the motor to get the image sharp using pollen detection and blurriness measurement
         """
         image = self.capture_array()
-        cv2.imwrite("init_image.png", image)
         x, y, w, h = pollenDetection.pollen_detection(image)
-        cropped_image = image[y:y+h, x:x+w]
+        cpt = 0
+        while x==0 & y==0 & w==0 & h==0 :
+            if cpt < 5 :
+                self.zoom(True, 100)
+                cpt+=1
+                image = self.capture_array()
+                x, y, w, h = pollenDetection.pollen_detection(image)
+            if cpt == 5 :
+                self.zoom(False, 500)
+            if cpt > 5 :
+                self.zoom(False, 100)
+                cpt+=1
+                image = self.capture_array()
+                x, y, w, h = pollenDetection.pollen_detection(image)
+            cropped_image = image[y:y+h, x:x+w]
         cv2.imwrite("cropped_image.png", cropped_image)
 
         def get_direction(step, img):
             """Indicate if it's better to zoom in, zoom out or stay in position
             """
-            time.sleep(3)
+            time.sleep(1)
             sharp =  blurriness.measure_blurriness(img)
             self.zoom(step,True)
-            time.sleep(3)
+            time.sleep(1)
             sharp_true = blurriness.measure_blurriness(img)
             self.zoom(2*step, False)
-            time.sleep(3)
+            time.sleep(1)
             sharp_false = blurriness.measure_blurriness(img)
             self.zoom(step,True)
 
@@ -115,8 +130,8 @@ class Camera(Picamera2):
 if __name__ == "__main__":
     in1 = 2
     in2 = 3
-    in3 = 4
-    in4 = 14
+    in3 = 17
+    in4 = 27
     pins_list = [in1, in2, in3, in4]
     cam = Camera(pins_list)
     cam.calibrage()

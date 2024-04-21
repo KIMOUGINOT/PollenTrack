@@ -47,7 +47,7 @@ class Led():
 
 if __name__ == "__main__" :
     import time
-    led = Led(23, 24, 10)
+    led = Led([23, 24, 8])
     led.on(1,0,0)
     time.sleep(1)
     led.on(0,1,0)

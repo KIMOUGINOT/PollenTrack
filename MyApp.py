@@ -17,9 +17,9 @@ class MyApp():
         self.led = Led(led_pins)
         self.transportMotor = MotorTransport(motor_pins)
         self.camera = Camera(camera_motor_pins)
-        self.button = Button(button_pin)
-        self.button.on_single_click(self.button_single_click)
-        self.button.on_double_click(self.button_double_click)
+        # self.button = Button(button_pin)
+        # self.button.on_single_click(self.button_single_click)
+        # self.button.on_double_click(self.button_double_click)
         self.init_storage()
 
     def routine(self):
@@ -62,6 +62,15 @@ class MyApp():
                 self.run = False
         self.led.on_for(0,1,0, 10) # green for 10sec
 
+    def routine_test_sans_button(self):
+        self.led.on(0,1,0)
+        self.fan.on_for(5)
+        self.led.on(1,0,0)
+        self.transportMotor.move_mm(self.TRANSPORT_DISTANCE)
+        self.led.on(0,0,1)
+        self.camera.take_3_pictures("Image/"+self.date, self.date)
+        self.off()
+
     def init_storage(self):
         folder_path = "Image/" + self.date
 
@@ -86,7 +95,7 @@ class MyApp():
         self.fan.off()
         self.led.off()
         self.transportMotor.off()
-        self.camera.off()
+        # self.camera.off()
         GPIO.cleanup()
 
 if __name__ == "__main__" :
