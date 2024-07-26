@@ -1,8 +1,6 @@
 # PollenTrack
 
-<div style="text-align: right;">
-    <img src="image/Logo_Pollentrack.png" alt="Logo Pollentrack" width="200" height="200">
-</div>
+![Logo PI PollenTrack (1)](https://github.com/user-attachments/assets/2b89f491-86c7-4b91-8bda-1eb77a85acd4)
 
 ## Introduction
 Dans le cadre de mon cursus en école d'ingénieur à Telecom Physique Strasbourg, j'ai du en deuxième année prendre part à un projet ingénieur. Ce projet a été proposé par un client à l'école qui nous l'a ensuite proposé. Je fais donc partie d'une équipe de 5 étudiants dans laquelle je suis responsable de la partie software.
