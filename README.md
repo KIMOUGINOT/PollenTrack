@@ -1,5 +1,3 @@
-# PollenTrack
-
 ![Logo PI PollenTrack (1)](https://github.com/user-attachments/assets/2b89f491-86c7-4b91-8bda-1eb77a85acd4)
 
 ## Introduction
