@@ -5,7 +5,7 @@
 </div>
 
 ## Introduction
-Dans le cadre de mon cursus en école d'ingénieur à Telecom Physique Strasbourg, je dois en deuxième prendre part à un projet ingénieur. Ce projet a été proposé par un client à l'école qui nous l'a ensuite proposé. Je fais donc partie d'une équipe de 5 étudiants dans laquelle je suis responsable de la partie software.
+Dans le cadre de mon cursus en école d'ingénieur à Telecom Physique Strasbourg, j'ai du en deuxième année prendre part à un projet ingénieur. Ce projet a été proposé par un client à l'école qui nous l'a ensuite proposé. Je fais donc partie d'une équipe de 5 étudiants dans laquelle je suis responsable de la partie software.
 
 ## Client
 Le client est Eric Herber, ingénieur qualité de l'air à ATMO Grand Est.
@@ -22,12 +22,12 @@ Le projet prend la forme d'une boîte dans laquelle sont disposés deux modules 
 
 - Une partie liée au captage du pollen constituée d'une cheminée où un ventilateur créant un flux d'air de 10L/min (~respiration humaine) entraine le pollen vers une bande adhésive sur laquelle celui ci est piégé.
 
-- Une partie liée à l'acquisition d'image de ce pollen avec un microscope embarqué. Le microscope embarqué utilisé est le Microscope Openflexure 1.6.5.
+- Une partie liée à l'acquisition d'image de ce pollen avec un microscope embarqué. Le microscope embarqué utilisé est le Microscope Openflexure 1.6.5 qui est donc relié à la caméra Raspberry pi V2.
 
 Ces deux parties sont reliées entre elles par un moteur qui se chargera du déplacement du scotch entre les deux.
 
 Le cerveau du système est un raspberry pi 4B .
-## Algorithme de prise de photo
+## Algorithme d'autofocus du microscope
 Le problème majeur est de réussir à prendre une photo qui n’est pas floue. Je souhaiterai donc créer un code qui permet de faire le focus d’une image. 
 
 Pour déterminer si une image est nette ou pas, on s’intéresse au bord des objets qui se trouvent dans l’image. On les reconnait par une subite forte variation de l’intensité des pixels. Plus la variation est forte, plus l’image est nette. Au contraire, plus la variation est “diffuse”, moins l’image est nette. On a donc affaire à un problème de traitement d’image.
@@ -39,3 +39,5 @@ Il faudrait donc commencer par détecter un grain de pollen dans l’image puis 
 - Une fois cette zone trouvée, on veut savoir à quel point elle est floue. Pour cela, il faut d’abord créer un algo qui détermine “le taux de netteté” d’une image. Pour l'instant j'utilise la variance du filtre laplacien comme taux de netteté (l'objectif est de maximiser cette variance pour avoir un taux de netteté maximum) mais ce système détermine le taux de netteté en parti en se basant sur les auréoles autour des grains de pollen. Je n'obtient donc pas forcément la meilleure netteté sur le grain de pollen en lui-même. Il semblerait que les auréoles soient causées par une réaction chimique le scotch et les grains de pollen. Une solution peut-être de réaliser plusieurs acquisitions avec différents focus : c'est à dire qu'une fois que le focus est fait, on capture des images en dezoomant un peu et zoomant un peu.
 - Connaissant cela, il faut maintenant y aller à tatillon : on actionne le moteur pour zoomer quelque peu (déterminer de combien on bouge) la caméra et à chaque itération on regarde si le taux de netteté est meilleure que précédemment. Si le taux est meilleur, on zoom et si il est pire on dézoom. On itère jusqu’à un taux qui nous convient.
 - On peut ainsi prendre la photo.
+## Résultat
+![436609042_297606970101523_3743437641338467726_n](https://github.com/user-attachments/assets/3ab35bfc-065f-4dd0-8f17-8bd58c4edf4a)
