@@ -1,13 +1,13 @@
 import cv2
 
 def pollen_detection(image) :
-    """détecter la ROI (region of interest) de l'image donnée en paramètre
+    """detect the ROI (region of interest) of the image given in parameters
 
     Args:
-        image_path (_string_): chemin de l'image
+        image_path (_string_)
 
     Returns:
-        _Image_: image de la ROI
+        _x, y, w, h (_int_) : coordinates of the ROI
     """
 
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)

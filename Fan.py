@@ -36,6 +36,7 @@ class Fan():
     def off(self):
         """ Turn off the fan
         """
+        self.pwm.stop()
         GPIO.cleanup(self.pin)
 
 if __name__ == "__main__" :

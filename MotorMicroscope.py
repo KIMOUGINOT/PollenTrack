@@ -27,8 +27,12 @@ class MotorMicroscope():
 
         self.motor_pins = motor_pins
         self.motor_step_counter = 0 
+        print("Initialisation of the microscope's motor : done")
+
 
     def off(self):
+        """Clean up the pins used
+        """
         GPIO.output( self.motor_pins[1], GPIO.LOW )
         GPIO.output( self.motor_pins[2], GPIO.LOW )
         GPIO.output( self.motor_pins[3], GPIO.LOW )
@@ -36,19 +40,24 @@ class MotorMicroscope():
         GPIO.cleanup()
 
     def move(self, steps, direction):
-            for _ in range(steps):
-                for pin in range(len(self.motor_pins)):
-                    GPIO.output(self.motor_pins[pin], self.step_sequence[self.motor_step_counter][pin])
+        """Rotate the motor according to the number of steps and the direction given in parameters
 
-                if direction:
-                    self.motor_step_counter = (self.motor_step_counter - 1) % 8
-                else:
-                    self.motor_step_counter = (self.motor_step_counter + 1) % 8
+        Args:
+            steps (_int_):
+            direction (_bool_): 
+        """
+        for _ in range(steps):
+            for pin in range(len(self.motor_pins)):
+                GPIO.output(self.motor_pins[pin], self.step_sequence[self.motor_step_counter][pin])
 
-                time.sleep(self.step_sleep)
+            if direction:
+                self.motor_step_counter = (self.motor_step_counter - 1) % 8
+            else:
+                self.motor_step_counter = (self.motor_step_counter + 1) % 8
+
+            time.sleep(self.step_sleep)
 
 if __name__ == "__main__":
-    # Utilisation de la classe MotorMicroscope
     in1 = 17
     in2 = 18
     in3 = 27

@@ -10,6 +10,8 @@ class Led():
         GPIO.setup(self.red_pin, GPIO.OUT)
         GPIO.setup(self.green_pin, GPIO.OUT)
         GPIO.setup(self.blue_pin, GPIO.OUT)
+        print("Initialisation of the Led : done")
+
         
     def on(self, red, green, blue):
         """ Turn on the led according to the colors chosen

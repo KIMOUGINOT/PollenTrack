@@ -1,5 +1,4 @@
 from picamera2 import Picamera2, Preview
-# import keyboard
 from MotorMicroscope import *
 from Led import *
 import cv2
@@ -10,6 +9,8 @@ class Camera(Picamera2):
     def __init__(self, camera_motor_pins) :
         super().__init__()
         self.motor = MotorMicroscope(camera_motor_pins)
+        print("Initialisation of the Camera : done")
+
 
     def take_picture(self, image_path, image_name):
         """ Take an image and save it to image_path with the label image_name
@@ -43,18 +44,18 @@ class Camera(Picamera2):
         self.zoom(100,False)
 
 
-    def calibrage(self):
-        # state = True
-        # def set_state_false():
-        #     state = False
-        # keyboard.add_hotkey('z', lambda : self.zoom(True))
-        # keyboard.add_hotkey('s', lambda : self.zoom(False))
-        # keyboard.add_hotkey('a', set_state_false)
-        self.start_preview(Preview.QTGL)
-        self.start()
-        # while state :
-        #     pass
-        # self.stop_preview()
+    # def calibrage(self):
+    #     state = True
+    #     def set_state_false():
+    #         state = False
+    #     keyboard.add_hotkey('z', lambda : self.zoom(True))
+    #     keyboard.add_hotkey('s', lambda : self.zoom(False))
+    #     keyboard.add_hotkey('a', set_state_false)
+    #     self.start_preview(Preview.QTGL)
+    #     self.start()
+    #     while state :
+    #         pass
+    #     self.stop_preview()
 
     def zoom(self, step, direction):
         """activate the motor for x steps to the direction given in parameters
@@ -74,25 +75,25 @@ class Camera(Picamera2):
         x, y, w, h = pollenDetection.pollen_detection(image)
         cpt = 0
         while x==0 & y==0 & w==0 & h==0 :
-            if cpt < 10 :
+            if cpt < 20 :
                 self.zoom(100,True)
                 time.sleep(0.5)
                 cpt+=1
                 image = self.capture_array()
                 x, y, w, h = pollenDetection.pollen_detection(image)
-            if cpt == 10 :
-                for _ in range(10):
+            if cpt == 20 :
+                for _ in range(20):
                     self.zoom(100, False)
                     time.sleep(0.3)
                 cpt+=1
-            if cpt > 10 & cpt <= 20 :
-                self.zoom(False, 100)
+            if (cpt > 20 and cpt <= 40) :
+                self.zoom(100, False)
                 time.sleep(0.5)
                 cpt+=1
                 image = self.capture_array()
                 x, y, w, h = pollenDetection.pollen_detection(image)
-            if cpt > 20 :
-                for _ in range(10):
+            if cpt > 40 :
+                for _ in range(20):
                     self.zoom(100,True)
                     time.sleep(0.3)
                 x=1
@@ -100,7 +101,6 @@ class Camera(Picamera2):
         comp = [x,y,w,h]
         if comp != [1,0,0,0]:
             cropped_image = image[y:y+h, x:x+w]
-            cv2.imwrite("cropped_image.png", cropped_image)
 
             def get_direction(step, img):
                 """Indicate if it's better to zoom in, zoom out or stay in position
@@ -149,6 +149,5 @@ if __name__ == "__main__":
     in4 = 27
     pins_list = [in1, in2, in3, in4]
     cam = Camera(pins_list)
-    cam.calibrage()
     cam.focus()
     cam.off()

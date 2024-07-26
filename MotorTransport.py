@@ -2,10 +2,10 @@ import RPi.GPIO as GPIO
 import time
 from numpy import pi
 
-radius_min = 33/2 #en mm
+radius_min = 33/2 #in mm
 i_m = 1.8/16
 full_rotation_step = 3200 # 16 microstep x 200 
-scotch_thickness = 28e-6 #en mm
+scotch_thickness = 28e-6 #in mm
 
 class MotorTransport():
     def __init__(self, motor_pins):
@@ -15,6 +15,8 @@ class MotorTransport():
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.dirPin, GPIO.OUT)
         GPIO.setup(self.stepPin, GPIO.OUT)
+        print("Initialisation of the transport's motor : done")
+
 
     def off(self):
         """Turn off the motor and clean the pins
@@ -28,11 +30,11 @@ class MotorTransport():
             steps (_int_): Number of steps to rotate the motor
             direction (_bool_):
         """
-        if not(direction):
+        if direction:
             self.refresh_log(steps)
-            GPIO.output(self.dirPin, GPIO.HIGH)
-        else:
             GPIO.output(self.dirPin, GPIO.LOW)
+        else:
+            GPIO.output(self.dirPin, GPIO.HIGH)
 
         for _ in range(steps):
             GPIO.output(self.stepPin, GPIO.HIGH)
@@ -50,6 +52,7 @@ class MotorTransport():
         radius = radius_min + (total_steps % full_rotation_step)*scotch_thickness
         angle = (distance*i_m)/radius
         step = int(angle*full_rotation_step/(2*pi))
+        self.refresh_log(step)
         self.move(step, True)
 
     def refresh_log(self,steps):
@@ -59,13 +62,13 @@ class MotorTransport():
             steps (_int_): 
         """
         total_steps = self.get_total_step()
-        with open("motor_utilities/log.txt", "w") as file:
+        with open("/home/pollentrack/Documents/PollenTrack/motor_utilities/log.txt", "w") as file:
             file.write(str(steps + total_steps))
 
     def erase_log(self):
         """ Erase the log file to change the spool and put the number of step to 0
         """
-        with open("motor_utilities/log.txt", "w") as file:
+        with open("/home/pollentrack/Documents/PollenTrack/motor_utilities/log.txt", "w") as file:
             file.write(str(0))
 
     def get_total_step(self):
@@ -74,19 +77,20 @@ class MotorTransport():
         Returns:
             _int_:
         """
-        with open("motor_utilities/log.txt", "r") as file:
+        with open("/home/pollentrack/Documents/PollenTrack/motor_utilities/log.txt", "r") as file:
                 total_steps = int(file.read())
         return total_steps
                 
 
 if __name__ == "__main__":
-    # Utilisation de la classe MotorTransport
     in1 = 26
     in2 = 19
     pins_list = [in1, in2]
     motor = MotorTransport(pins_list)
-    motor.move(200, True)
+    motor.move(300, True)
     print(motor.get_total_step())
+    time.sleep(0.1)
     motor.move_mm(100)
+    print(motor.get_total_step())
     motor.erase_log()
     motor.off()
